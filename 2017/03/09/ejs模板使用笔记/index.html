@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/09/ejs模板使用笔记/index.html">
 <meta property="og:site_name" content="iwtw的博客">
 <meta property="og:description" content="&amp;lt;% %&amp;gt;被&amp;lt;% %&amp;gt;括住的内容会被ejs compiler当成javascript语句执行。使得我们可以在.ejs中使用javascript那为什么我们不直接使用 &amp;lt;script&amp;gt;标签呢？实际上它们存在区别，&amp;lt;script&amp;gt;中的内容本质还是你的html，也就是你点开页面view source能直接看到代码；相反，&amp;lt;% %&amp;gt;括住的内容是不">
-<meta property="og:updated_time" content="2017-03-09T05:52:20.920Z">
+<meta property="og:updated_time" content="2017-03-09T05:55:13.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ejs模板使用笔记">
 <meta name="twitter:description" content="&amp;lt;% %&amp;gt;被&amp;lt;% %&amp;gt;括住的内容会被ejs compiler当成javascript语句执行。使得我们可以在.ejs中使用javascript那为什么我们不直接使用 &amp;lt;script&amp;gt;标签呢？实际上它们存在区别，&amp;lt;script&amp;gt;中的内容本质还是你的html，也就是你点开页面view source能直接看到代码；相反，&amp;lt;% %&amp;gt;括住的内容是不">
@@ -162,7 +162,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="lt-gt"><a href="#lt-gt" class="headerlink" title="&lt;% %&gt;"></a>&lt;% %&gt;</h3><p>被&lt;% %&gt;括住的内容会被ejs compiler当成javascript语句执行。使得我们可以在.ejs中使用javascript<br>那为什么我们不直接使用 &lt;script&gt;标签呢？<br>实际上它们存在区别，&lt;script&gt;中的内容本质还是你的html，也就是你点开页面view source能直接看到代码；相反，&lt;% %&gt;括住的内容是不会被转义成html的，它们的功能应该是辅助你书写ejs。<br>在&lt;script&gt;中使用&lt;% %&gt;时需要注意这点。</p>
-<h3 id="lt-gt-1"><a href="#lt-gt-1" class="headerlink" title="&lt;%= %&gt;"></a>&lt;%= %&gt;</h3><p>被&lt;%= %&gt;括住的变量会被ejs转义成变量的值输出到html中。</p>
+<h3 id="lt-gt-1"><a href="#lt-gt-1" class="headerlink" title="&lt;%= %&gt;"></a>&lt;%= %&gt;</h3><a id="more"></a>
+<p>被&lt;%= %&gt;括住的变量会被ejs转义成变量的值输出到html中。</p>
 <h3 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h3><p>这是我在做一个经纬度标记到高德地图上所使用的ejs代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">   &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">pos =  [ &lt;%=results[0].Longitude%&gt; , &lt;%=results[0].Latitude%&gt;];</div><div class="line">	</div><div class="line">       var map = new AMap.Map(&apos;container&apos;,&#123;</div><div class="line">           resizeEnable: true,</div><div class="line">           zoom: 10,</div><div class="line">		center: pos</div><div class="line">       &#125;);</div><div class="line">	var marker = [] ; </div><div class="line">	if( !&lt;%=empty%&gt;)&#123;</div><div class="line">		&lt;% for( var i = 0 ; i &lt; results.length ; i ++ )&#123;%&gt;</div><div class="line">			marker[&lt;%=i%&gt;] = new AMap.Marker(&#123;</div><div class="line">				icon: &quot;http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png&quot;,</div><div class="line">				position: [ &lt;%=results[i].Longitude%&gt; , &lt;%=results[i].Latitude%&gt; ]</div><div class="line">			&#125;);	</div><div class="line">			marker[&lt;%=i%&gt;].setMap(map);</div><div class="line">		&lt;%;&#125;%&gt;</div><div class="line">	&#125;</div><div class="line">   &lt;/script&gt;</div></pre></td></tr></table></figure></p>
 <p>用浏览器打开view source，得到的结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"> &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">	pos =  [ 103.89472166666667 , 30.97911];</div><div class="line">		</div><div class="line">        var map = new AMap.Map(&apos;container&apos;,&#123;</div><div class="line">            resizeEnable: true,</div><div class="line">            zoom: 10,</div><div class="line">			center: pos</div><div class="line">        &#125;);</div><div class="line">		var marker = [] ; </div><div class="line">		if( !false)&#123;</div><div class="line">			</div><div class="line">				marker[0] = new AMap.Marker(&#123;</div><div class="line">					icon: &quot;http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png&quot;,</div><div class="line">					position: [ 103.89472166666667 , 30.97911 ]</div><div class="line">				&#125;);	</div><div class="line">				marker[0].setMap(map);</div><div class="line">			</div><div class="line">				marker[1] = new AMap.Marker(&#123;</div><div class="line">					icon: &quot;http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png&quot;,</div><div class="line">					position: [ 103.89472166666667 , 30.97911 ]</div><div class="line">				&#125;);	</div><div class="line">				marker[1].setMap(map);</div><div class="line">			</div><div class="line">				marker[2] = new AMap.Marker(&#123;</div><div class="line">					icon: &quot;http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png&quot;,</div><div class="line">					position: [ 103.89463833333333 , 30.9795 ]</div><div class="line">				&#125;);	</div><div class="line">				marker[2].setMap(map);</div><div class="line">				</div><div class="line">.....省略.....</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
 
@@ -397,6 +398,14 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linear Regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Ejs</a>
               </li>
              
@@ -406,14 +415,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">前端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linear Regression</a>
               </li>
              
               <li class="article-tag-list-item">
