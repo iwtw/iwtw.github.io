@@ -167,13 +167,7 @@
 <p>然后创建两个空白文件,用于存shadowsocks守护进程的日志和pid<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$touch log</div><div class="line">$touch shadowsocks.pid</div></pre></td></tr></table></figure></p>
 <p>创建一个start.sh用于启动SS daemon<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">sslocal -d start -c /home/wutingwei/shadowsocks/config.json --log-file /home/wutingwei/shadowsocks/log --pid-file /home/wutingwei/shadowsocks/shadowsocks.pid</div></pre></td></tr></table></figure></p>
 <p>stop守护进程只要把上面的start改成stop，注意使用同一个pid文件</p>
-<h2 id="使用Privoxy为终端走SS代理"><a href="#使用Privoxy为终端走SS代理" class="headerlink" title="使用Privoxy为终端走SS代理"></a>使用Privoxy为终端走SS代理</h2><p>ss使用的是socks5协议，而终端要走代理的话，必须使用http/https协议，因此需要协议转换，我们使用Privoxy作协议转换</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sudo apt-get install privoxy</div></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sudo vim /etc/privoxy/config</div></pre></td></tr></table></figure>
-<p>搜索forward-socks5所在行把forward-socks5的值改为SS代理的本地端口(默认为1080)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">forward-socks5 / 127.0.0.1:1080 .</div></pre></td></tr></table></figure></p>
-<p>设置privoxy的监听端口，不做修改的话使用localhost:8118，键名:listen-address<br>然后重启（启动）privoxy服务,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sudo service privoxy start</div></pre></td></tr></table></figure></p>
-<p>最后设置环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$export http_proxy=&quot;localhost&quot;</div><div class="line">$export https_proxy=$http_proxy</div></pre></td></tr></table></figure></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$wget www.google.com</div><div class="line">--2017-04-11 15:04:44--  http://www.google.com/</div><div class="line">Resolving localhost (localhost)... 127.0.0.1</div><div class="line">Connecting to localhost (localhost)|127.0.0.1|:8118... connected.</div><div class="line">Proxy request sent, awaiting response... 200 OK</div><div class="line">Length: 10503 (10K) [text/html]</div><div class="line">Saving to: ‘index.html’</div><div class="line"></div><div class="line">index.html          100%[===================&gt;]  10.26K  --.-KB/s    in 0s      </div><div class="line"></div><div class="line">2017-04-11 15:04:46 (218 MB/s) - ‘index.html’ saved [10503/10503]</div></pre></td></tr></table></figure>
+<h2 id="使用Privoxy为终端走SS代理"><a href="#使用Privoxy为终端走SS代理" class="headerlink" title="使用Privoxy为终端走SS代理"></a>使用Privoxy为终端走SS代理</h2><p>ss使用的是socks5协议，而终端要走代理的话，必须使用http/https协议，因此需要协议转换，我们使用Privoxy作协议转换<br>参考:<a href="http://blog.csdn.net/li740207611/article/details/52045471" target="_blank" rel="external">http://blog.csdn.net/li740207611/article/details/52045471</a></p>
 
       
 
@@ -605,11 +599,39 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Ejs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linear Regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">地图</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -638,34 +660,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">shadowsocks</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Ejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">前端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">地图</a>
               </li>
             
             <div class="clearfix"></div>
