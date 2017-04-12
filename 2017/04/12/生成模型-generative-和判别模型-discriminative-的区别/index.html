@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Linear Regression | iwtw的博客</title>
+  <title>生成模型(generative)和判别模型(discriminative)的区别 | iwtw的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目的对于给定的训练集合(training set) x 和 y ， 其中x为m * n 的矩阵 ， y 为 m行的列向量，也就是有m个训练样本(samples) ， 每个样本有 n 个features ，我们希望能学习训练集合从而如果有一个新的输入数据 x ， 我们能预测与它对应的y的值。">
+  <meta name="description" content="生成模型和判别模型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linear Regression">
-<meta property="og:url" content="http://yoursite.com/2017/03/01/Linear-Regression/index.html">
+<meta property="og:title" content="生成模型(generative)和判别模型(discriminative)的区别">
+<meta property="og:url" content="http://yoursite.com/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/index.html">
 <meta property="og:site_name" content="iwtw的博客">
-<meta property="og:description" content="目的对于给定的训练集合(training set) x 和 y ， 其中x为m * n 的矩阵 ， y 为 m行的列向量，也就是有m个训练样本(samples) ， 每个样本有 n 个features ，我们希望能学习训练集合从而如果有一个新的输入数据 x ， 我们能预测与它对应的y的值。">
-<meta property="og:updated_time" content="2017-03-01T15:02:47.487Z">
+<meta property="og:description" content="生成模型和判别模型">
+<meta property="og:updated_time" content="2017-04-12T03:30:48.775Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linear Regression">
-<meta name="twitter:description" content="目的对于给定的训练集合(training set) x 和 y ， 其中x为m * n 的矩阵 ， y 为 m行的列向量，也就是有m个训练样本(samples) ， 每个样本有 n 个features ，我们希望能学习训练集合从而如果有一个新的输入数据 x ， 我们能预测与它对应的y的值。">
+<meta name="twitter:title" content="生成模型(generative)和判别模型(discriminative)的区别">
+<meta name="twitter:description" content="生成模型和判别模型">
   
     <link rel="alternative" href="/atom.xml" title="iwtw的博客" type="application/atom+xml">
   
@@ -141,30 +141,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Linear-Regression" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-生成模型-generative-和判别模型-discriminative-的区别" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Linear Regression
+      生成模型(generative)和判别模型(discriminative)的区别
     </h1>
   
 
         
-        <a href="/2017/03/01/Linear-Regression/" class="archive-article-date">
-  	<time datetime="2017-03-01T08:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-01</time>
+        <a href="/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/" class="archive-article-date">
+  	<time datetime="2017-04-12T03:20:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>对于给定的训练集合(training set) x 和 y ， 其中x为m * n 的矩阵 ， y 为 m行的列向量，也就是有m个训练样本(samples) ， 每个样本有 n 个features ，我们希望能学习训练集合从而如果有一个新的输入数据 x ， 我们能预测与它对应的y的值。<br><a id="more"></a><br>以房屋价格为例 ， 假设我们有 m个房屋数据，每间住房包括“住房面积”和“房间个数”作为features (此时n=2), 现在给定一间 面积为100，2间房的房屋，希望预测房屋价格</p>
-<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>$$h_{\theta}(X) = \theta ^TX = \theta_0 + \theta_1x_1 + … + \theta_nx_n$$<br>上式中的$x$为 n*1的列向量 ，$X = [1 ; x]$ ，添加了截距项(intercept term).<br>所以我们需要根据训练样本找到最适合的$\theta$</p>
-<h3 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h3><p>$$J(\theta) = \frac{1}{2}\sum<em>{i=1}^{n}(h</em>\theta(x^{(i)})-y^{(i)})^2 $$<br>其中$x^{(i)}$ ， $y^{(i)}$为第i组样本<br>这实际上是一个ordinary least square model</p>
-<h3 id="Compute-theta"><a href="#Compute-theta" class="headerlink" title="Compute $\theta$"></a>Compute $\theta$</h3><p>目的是找到最小化$J$的$\theta$<br>由于$J(\theta$)是一个凸函数<br>使用的方法可以是gradient descent 或者 Newton-Rhaphson’s method 。<br>得到确定的$\theta$以后我们就可以根据输入预测了</p>
+        <p><a href="http://blog.csdn.net/zouxy09/article/details/8195017" target="_blank" rel="external">生成模型和判别模型</a></p>
 
       
 
@@ -178,11 +175,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Machine Leanrning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">generative model</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linear Regression</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">discriminative model</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">probability theory</a>
         		</li>
       		
 		</ul>
@@ -238,7 +239,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/01/Linear-Regression/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -252,18 +253,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/03/09/ejs模板使用笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          ejs模板使用笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/01/12/github搭建hexo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">github搭建hexo</div>
+    <a href="/2017/04/11/使用Privoxy为终端走ShadowSocks代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用Privoxy为终端走ShadowSocks代理</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -277,7 +269,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Linear-Regression" data-title="Linear Regression" data-url="http://yoursite.com/2017/03/01/Linear-Regression/"></div>
+	<div class="ds-thread" data-thread-key="生成模型-generative-和判别模型-discriminative-的区别" data-title="生成模型(generative)和判别模型(discriminative)的区别" data-url="http://yoursite.com/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
