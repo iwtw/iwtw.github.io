@@ -142,6 +142,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql5-6-16源码安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/18/mysql5-6-16源码安装/">mysql5.6.16i在Linux下源码安装</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/18/mysql5-6-16源码安装/" class="archive-article-date">
+  	<time datetime="2017-04-18T02:22:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一台没有付费(WTF为什么不用ubuntu)的Redhat上折腾mysql,用不了rpm,只能源码安装了.</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>到官网下载Mysql.zip ,里面包括了Mysql和其他所需依赖(包括gcc和cmake等)<br>解压出里面的mysql-version.tar.gz然后再解压出mysql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$tar -zxvf mysql-version.tar.gz</div></pre></td></tr></table></figure></p>
+<h3 id="编译然后安装"><a href="#编译然后安装" class="headerlink" title="编译然后安装"></a>编译然后安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$cd mysql-version</div><div class="line">$cmake \</div><div class="line">-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \</div><div class="line">-DMYSQL_DATADIR=/opt/mysql/data \</div><div class="line">-DSYSCONFDIR=/etc \</div><div class="line">-DWITH_MYISAM_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_MEMORY_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_READLINE=1 \</div><div class="line">-DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock \</div><div class="line">-DMYSQL_TCP_PORT=3306 \</div><div class="line">-DENABLED_LOCAL_INFILE=1 \</div><div class="line">-DWITH_PARTITION_STORAGE_ENGINE=1 \</div><div class="line">-DEXTRA_CHARSETS=all \</div><div class="line">-DDEFAULT_CHARSET=utf8 \</div><div class="line">-DDEFAULT_COLLATION=utf8_general_ci</div></pre></td></tr></table></figure>
+<p>这里配置可以依字面意思修改,虽然在这里配置过了,但后续还要再进行一些重复的配置,(为什么?挖坑待填,也许跟cmake原理有关)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure></p>
+<p>这一步大约耗时30分钟</p>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><p>这一步是为了使用mysql用户专门对mysql进行管理(root也不能直接管理mysql),防止一些误操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$cat /etc/passwd | grep mysql</div><div class="line">$cat /etc/group | grep mysql</div></pre></td></tr></table></figure></p>
+<p>看一下是否存在mysql用户和用户组<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$gourp add mysql</div><div class="line">$useradd -g mysql mysql</div><div class="line">$passwd mysql</div></pre></td></tr></table></figure></p>
+<p>若不存在就创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chown -R mysql:mysql /usr/local/mysql</div><div class="line">chown -R mysql:mysql /opt/mysql/data</div></pre></td></tr></table></figure></p>
+<p>分别将mysql basedir和datadir的owner改为mysql</p>
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><p>进入安装路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$cd /usr/local/mysql</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$vim my.cnf</div></pre></td></tr></table></figure>
+<p>进行一些必要配置,其中的我的修改如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">basedir = /usr/local/mysql</div><div class="line">datadir = /opt/mysql/data</div><div class="line">port = 3306</div><div class="line"># server_id = .....</div><div class="line">socket =/var/lib/mysql/mysql.sock</div></pre></td></tr></table></figure></p>
+<p>然后执行脚本初始化mysql系统库:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$cd scripts</div><div class="line">$./mysql_install_db --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql</div></pre></td></tr></table></figure></p>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>切换到mysql用户然后启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$su - mysql</div><div class="line">$service mysql start</div><div class="line">Starting MySQL. SUCCESS! </div><div class="line">$ps -aux | grep mysql</div><div class="line">mysql     8921  0.0  0.0  11608  1560 ?        S    10:10   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --datadir=/opt/mysql/data --pid-file=/opt/mysql/data/oracle51.pid</div><div class="line">mysql     9124  0.0  0.7 694116 118404 ?       Sl   10:10   0:01 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/opt/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/opt/mysql/data/oracle51.err --pid-file=/opt/mysql/data/oracle51.pid --socket=/var/lib/mysql/mysql.sock --port=3306</div><div class="line">root     10589  0.0  0.0 112640  1008 pts/0    S+   10:53   0:00 grep --color=auto mysql</div></pre></td></tr></table></figure></p>
+<p>以后每次开机需要启用mysql服务,也可以将mysql服务设为开机自动启动</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$mysql</div></pre></td></tr></table></figure>
+<p>已经可以进入mysql</p>
+<h3 id="查看错误日志"><a href="#查看错误日志" class="headerlink" title="查看错误日志"></a>查看错误日志</h3><p>mysql安装后,若启动失败可以查看 datadir/xx.err(具体地,比如/opt/mysql/data/oracle51.err) ,不要盲目根据终端的提示上搜索引擎去找</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-vsftpd配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -431,70 +510,6 @@
 
 
   
-    <article id="post-经纬度和地图坐标的转换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/07/经纬度和地图坐标的转换/">经纬度和地图坐标的转换</a>
-    </h1>
-  
-
-        
-        <a href="/2017/04/07/经纬度和地图坐标的转换/" class="archive-article-date">
-  	<time datetime="2017-04-07T12:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>百度的“批量”坐标转换一次最多只支持10个点的转换！demo上还不作说明！而且是以回调函数的方式获得转换后的BMap.Point[]！也就是说如果你要给每个点按顺序贴标签是做不到的！因为回调函数是异步调用的，WTF！！！！已身中javascript剧毒…</p>
-<p>于是我转向高德地图，卧槽，高德地图连转换API都没有，一查才涨了关于中国地图坐标系的姿势</p>
-<h2 id="地球坐标系，火星坐标系，百度地图坐标系"><a href="#地球坐标系，火星坐标系，百度地图坐标系" class="headerlink" title="地球坐标系，火星坐标系，百度地图坐标系"></a>地球坐标系，火星坐标系，百度地图坐标系</h2><p>美国GPS定位采用的坐标系叫做WGS-84，这是全球通用的，换而言之，在火星是不适用的，在我们火星，我们使用叫做GCJ-02的坐标系，腾讯地图和高德地图都使用火星坐标系，百度地图使用百度坐标系。<br>感谢某位不知名的老司机，<br>从地球到火星的代码:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">transformLon</span>(<span class="params"> x, y</span>) </span>&#123;</div><div class="line">    ret = <span class="number">300.0</span> + x + <span class="number">2.0</span> * y + <span class="number">0.1</span> * x * x + <span class="number">0.1</span> * x * y + <span class="number">0.1</span></div><div class="line">                            * <span class="built_in">Math</span>.sqrt(x &gt; <span class="number">0</span> ? x : -x);</div><div class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">6.0</span> * x * <span class="built_in">Math</span>.PI) + <span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">2.0</span> * x</div><div class="line">                    * <span class="built_in">Math</span>.PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(x * <span class="built_in">Math</span>.PI) + <span class="number">40.0</span> * <span class="built_in">Math</span>.sin(x / <span class="number">3.0</span></div><div class="line">                    * <span class="built_in">Math</span>.PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    ret += (<span class="number">150.0</span> * <span class="built_in">Math</span>.sin(x / <span class="number">12.0</span> * <span class="built_in">Math</span>.PI) + <span class="number">300.0</span> * <span class="built_in">Math</span>.sin(x</div><div class="line">                    / <span class="number">30.0</span> * <span class="built_in">Math</span>.PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">transformLat</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">    ret = <span class="number">-100.0</span> + <span class="number">2.0</span> * x + <span class="number">3.0</span> * y + <span class="number">0.2</span> * y * y + <span class="number">0.1</span> * x * y</div><div class="line">                    + <span class="number">0.2</span> * <span class="built_in">Math</span>.sqrt(x &gt; <span class="number">0</span> ? x : -x);</div><div class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">6.0</span> * x * <span class="built_in">Math</span>.PI) + <span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">2.0</span> * x</div><div class="line">                    * <span class="built_in">Math</span>.PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(y * <span class="built_in">Math</span>.PI) + <span class="number">40.0</span> * <span class="built_in">Math</span>.sin(y / <span class="number">3.0</span></div><div class="line">                    * <span class="built_in">Math</span>.PI)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    ret += (<span class="number">160.0</span> * <span class="built_in">Math</span>.sin(y / <span class="number">12.0</span> * <span class="built_in">Math</span>.PI) + <span class="number">320</span> * <span class="built_in">Math</span>.sin(y</div><div class="line">                    * <span class="built_in">Math</span>.PI / <span class="number">30.0</span>)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Earth2Mars</span>(<span class="params">longitude , latitude </span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span>  a = <span class="number">6378245.0</span>;</div><div class="line">    <span class="keyword">const</span>  ee = <span class="number">0.00669342162296594323</span>;</div><div class="line">    <span class="keyword">var</span> dLat = transformLat(longitude - <span class="number">105.0</span>,</div><div class="line">                    latitude - <span class="number">35.0</span>);</div><div class="line">    <span class="keyword">var</span> dLon = transformLon(longitude - <span class="number">105.0</span>,</div><div class="line">                    latitude - <span class="number">35.0</span>);</div><div class="line">    <span class="keyword">var</span> radLat = latitude / <span class="number">180.0</span> * <span class="built_in">Math</span>.PI;</div><div class="line">    <span class="keyword">var</span> magic = <span class="built_in">Math</span>.sin(radLat);</div><div class="line">    magic = <span class="number">1</span> - ee * magic * magic;</div><div class="line">    <span class="keyword">var</span> sqrtMagic = <span class="built_in">Math</span>.sqrt(magic);</div><div class="line">    dLat = (dLat * <span class="number">180.0</span>)/ ((a * (<span class="number">1</span> - ee)) / (magic * sqrtMagic) * <span class="built_in">Math</span>.PI);</div><div class="line">    dLon = (dLon * <span class="number">180.0</span>) / (a / sqrtMagic * <span class="built_in">Math</span>.cos(radLat) * <span class="built_in">Math</span>.PI);</div><div class="line">    ret = [];</div><div class="line">    ret[<span class="number">0</span>] = longitude + dLon ;</div><div class="line">    ret[<span class="number">1</span>] = latitude + dLat ;</div><div class="line"></div><div class="line">    <span class="keyword">return</span>  ret ;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">地图</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -605,11 +620,19 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
+                <a href="javascript:void(0)" class="js-tag color4">c++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linear Regression</a>
+                <a href="javascript:void(0)" class="js-tag color3">compile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">g++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overflow</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,19 +648,27 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linear Regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">地图</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -669,6 +700,22 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">地图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">vsftpd</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ftp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">generative model</a>
               </li>
              
@@ -678,30 +725,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">probability theory</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">compile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">g++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overflow</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">vsftpd</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ftp</a>
               </li>
             
             <div class="clearfix"></div>

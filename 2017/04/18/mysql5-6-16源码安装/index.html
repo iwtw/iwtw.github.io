@@ -6,17 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: generative model | iwtw的博客</title>
+  <title>mysql5.6.16i在Linux下源码安装 | iwtw的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="I want to win">
-<meta property="og:type" content="website">
-<meta property="og:title" content="iwtw的博客">
-<meta property="og:url" content="http://yoursite.com/tags/generative-model/index.html">
+  <meta name="description" content="在一台没有付费(WTF为什么不用ubuntu)的Redhat上折腾mysql,用不了rpm,只能源码安装了.
+下载到官网下载Mysql.zip ,里面包括了Mysql和其他所需依赖(包括gcc和cmake等)解压出里面的mysql-version.tar.gz然后再解压出mysql1$tar -zxvf mysql-version.tar.gz
+编译然后安装12345678910111213141">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql5.6.16i在Linux下源码安装">
+<meta property="og:url" content="http://yoursite.com/2017/04/18/mysql5-6-16源码安装/index.html">
 <meta property="og:site_name" content="iwtw的博客">
-<meta property="og:description" content="I want to win">
+<meta property="og:description" content="在一台没有付费(WTF为什么不用ubuntu)的Redhat上折腾mysql,用不了rpm,只能源码安装了.
+下载到官网下载Mysql.zip ,里面包括了Mysql和其他所需依赖(包括gcc和cmake等)解压出里面的mysql-version.tar.gz然后再解压出mysql1$tar -zxvf mysql-version.tar.gz
+编译然后安装12345678910111213141">
+<meta property="og:updated_time" content="2017-04-18T02:54:22.605Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iwtw的博客">
-<meta name="twitter:description" content="I want to win">
+<meta name="twitter:title" content="mysql5.6.16i在Linux下源码安装">
+<meta name="twitter:description" content="在一台没有付费(WTF为什么不用ubuntu)的Redhat上折腾mysql,用不了rpm,只能源码安装了.
+下载到官网下载Mysql.zip ,里面包括了Mysql和其他所需依赖(包括gcc和cmake等)解压出里面的mysql-version.tar.gz然后再解压出mysql1$tar -zxvf mysql-version.tar.gz
+编译然后安装12345678910111213141">
   
     <link rel="alternative" href="/atom.xml" title="iwtw的博客" type="application/atom+xml">
   
@@ -140,68 +147,167 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-mysql5-6-16源码安装" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/" class="archive-article-date">
-  	<time datetime="2017-04-12T03:20:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/12/生成模型-generative-和判别模型-discriminative-的区别/">生成模型(generative)和判别模型(discriminative)的区别</a>
+    <h1 class="article-title" itemprop="name">
+      mysql5.6.16i在Linux下源码安装
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/04/18/mysql5-6-16源码安装/" class="archive-article-date">
+  	<time datetime="2017-04-18T02:22:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一台没有付费(WTF为什么不用ubuntu)的Redhat上折腾mysql,用不了rpm,只能源码安装了.</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>到官网下载Mysql.zip ,里面包括了Mysql和其他所需依赖(包括gcc和cmake等)<br>解压出里面的mysql-version.tar.gz然后再解压出mysql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$tar -zxvf mysql-version.tar.gz</div></pre></td></tr></table></figure></p>
+<h3 id="编译然后安装"><a href="#编译然后安装" class="headerlink" title="编译然后安装"></a>编译然后安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$cd mysql-version</div><div class="line">$cmake \</div><div class="line">-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \</div><div class="line">-DMYSQL_DATADIR=/opt/mysql/data \</div><div class="line">-DSYSCONFDIR=/etc \</div><div class="line">-DWITH_MYISAM_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_MEMORY_STORAGE_ENGINE=1 \</div><div class="line">-DWITH_READLINE=1 \</div><div class="line">-DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock \</div><div class="line">-DMYSQL_TCP_PORT=3306 \</div><div class="line">-DENABLED_LOCAL_INFILE=1 \</div><div class="line">-DWITH_PARTITION_STORAGE_ENGINE=1 \</div><div class="line">-DEXTRA_CHARSETS=all \</div><div class="line">-DDEFAULT_CHARSET=utf8 \</div><div class="line">-DDEFAULT_COLLATION=utf8_general_ci</div></pre></td></tr></table></figure>
+<p>这里配置可以依字面意思修改,虽然在这里配置过了,但后续还要再进行一些重复的配置,(为什么?挖坑待填,也许跟cmake原理有关)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure></p>
+<p>这一步大约耗时30分钟</p>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><p>这一步是为了使用mysql用户专门对mysql进行管理(root也不能直接管理mysql),防止一些误操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$cat /etc/passwd | grep mysql</div><div class="line">$cat /etc/group | grep mysql</div></pre></td></tr></table></figure></p>
+<p>看一下是否存在mysql用户和用户组<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$gourp add mysql</div><div class="line">$useradd -g mysql mysql</div><div class="line">$passwd mysql</div></pre></td></tr></table></figure></p>
+<p>若不存在就创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chown -R mysql:mysql /usr/local/mysql</div><div class="line">chown -R mysql:mysql /opt/mysql/data</div></pre></td></tr></table></figure></p>
+<p>分别将mysql basedir和datadir的owner改为mysql</p>
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><p>进入安装路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$cd /usr/local/mysql</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$vim my.cnf</div></pre></td></tr></table></figure>
+<p>进行一些必要配置,其中的我的修改如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">basedir = /usr/local/mysql</div><div class="line">datadir = /opt/mysql/data</div><div class="line">port = 3306</div><div class="line"># server_id = .....</div><div class="line">socket =/var/lib/mysql/mysql.sock</div></pre></td></tr></table></figure></p>
+<p>然后执行脚本初始化mysql系统库:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$cd scripts</div><div class="line">$./mysql_install_db --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql</div></pre></td></tr></table></figure></p>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>切换到mysql用户然后启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$su - mysql</div><div class="line">$service mysql start</div><div class="line">Starting MySQL. SUCCESS! </div><div class="line">$ps -aux | grep mysql</div><div class="line">mysql     8921  0.0  0.0  11608  1560 ?        S    10:10   0:00 /bin/sh /usr/local/mysql/bin/mysqld_safe --datadir=/opt/mysql/data --pid-file=/opt/mysql/data/oracle51.pid</div><div class="line">mysql     9124  0.0  0.7 694116 118404 ?       Sl   10:10   0:01 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/opt/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --log-error=/opt/mysql/data/oracle51.err --pid-file=/opt/mysql/data/oracle51.pid --socket=/var/lib/mysql/mysql.sock --port=3306</div><div class="line">root     10589  0.0  0.0 112640  1008 pts/0    S+   10:53   0:00 grep --color=auto mysql</div></pre></td></tr></table></figure></p>
+<p>以后每次开机需要启用mysql服务,也可以将mysql服务设为开机自动启动</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$mysql</div></pre></td></tr></table></figure>
+<p>已经可以进入mysql</p>
+<h3 id="查看错误日志"><a href="#查看错误日志" class="headerlink" title="查看错误日志"></a>查看错误日志</h3><p>mysql安装后,若启动失败可以查看 datadir/xx.err(具体地,比如/opt/mysql/data/oracle51.err) ,不要盲目根据终端的提示上搜索引擎去找</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">generative model</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">discriminative model</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">probability theory</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/04/18/mysql5-6-16源码安装/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/04/17/vsftpd配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">vsftpd配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="mysql5-6-16源码安装" data-title="mysql5.6.16i在Linux下源码安装" data-url="http://yoursite.com/2017/04/18/mysql5-6-16源码安装/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"iwtwgithub"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-    
+
 
 
           </div>
@@ -224,9 +330,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
