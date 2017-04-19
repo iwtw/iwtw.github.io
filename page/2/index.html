@@ -142,6 +142,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用Privoxy为终端走ShadowSocks代理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/11/使用Privoxy为终端走ShadowSocks代理/">使用Privoxy为终端走ShadowSocks代理</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/11/使用Privoxy为终端走ShadowSocks代理/" class="archive-article-date">
+  	<time datetime="2017-04-11T06:45:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ShadowSocks命令行版安装"><a href="#ShadowSocks命令行版安装" class="headerlink" title="ShadowSocks命令行版安装"></a>ShadowSocks命令行版安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$pip install shadowsocks</div></pre></td></tr></table></figure>
+<h2 id="ShadowSocks命令行版使用"><a href="#ShadowSocks命令行版使用" class="headerlink" title="ShadowSocks命令行版使用"></a>ShadowSocks命令行版使用</h2><p>首先写配置文件config.json<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"server"</span>:<span class="string">"servername"</span>,</div><div class="line">    <span class="attr">"server_port"</span>:serverport,</div><div class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</div><div class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</div><div class="line">    <span class="attr">"password"</span>:<span class="string">"password"</span>,</div><div class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</div><div class="line">    <span class="attr">"method"</span>:<span class="string">"aes-256-cfb"</span>,</div><div class="line">    <span class="attr">"fast_open"</span>:<span class="literal">true</span> //这个功能只支持Linux3<span class="number">.7</span>以上</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后创建两个空白文件,用于存shadowsocks守护进程的日志和pid<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$touch log</div><div class="line">$touch shadowsocks.pid</div></pre></td></tr></table></figure></p>
+<p>创建一个start.sh用于启动SS daemon<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">sslocal -d start -c /home/wutingwei/shadowsocks/config.json --log-file /home/wutingwei/shadowsocks/log --pid-file /home/wutingwei/shadowsocks/shadowsocks.pid</div></pre></td></tr></table></figure></p>
+<p>stop守护进程只要把上面的start改成stop，注意使用同一个pid文件</p>
+<h2 id="使用Privoxy为终端走SS代理"><a href="#使用Privoxy为终端走SS代理" class="headerlink" title="使用Privoxy为终端走SS代理"></a>使用Privoxy为终端走SS代理</h2><p>ss使用的是socks5协议，而终端要走代理的话，必须使用http/https协议，因此需要协议转换，我们使用Privoxy作协议转换<br>参考:<a href="http://blog.csdn.net/li740207611/article/details/52045471" target="_blank" rel="external">使用Privoxy将socks5代理转为http代理</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">VPN</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">终端代理</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">socks5</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">privoxy</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">shadowsocks</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-经纬度和地图坐标的转换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -402,69 +489,9 @@
 
 
   
-    <article id="post-github搭建hexo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/12/github搭建hexo/">github搭建hexo</a>
-    </h1>
-  
-
-        
-        <a href="/2017/01/12/github搭建hexo/" class="archive-article-date">
-  	<time datetime="2017-01-12T15:05:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这次终于弄好了个人博客，以后就可以常驻这里了，专门为了一个个人博客申请一个云服务器实在是没有必要，下面简单介绍一下在github上搭建hexo博客的经验<br>
-        
-          <a class="article-more-a" href="/2017/01/12/github搭建hexo/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -600,14 +627,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Machine Leanrning</a>
               </li>
              
@@ -621,6 +640,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -677,6 +704,22 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">probability theory</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GAN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WGAN</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">deep learning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">machine learning</a>
               </li>
             
             <div class="clearfix"></div>
